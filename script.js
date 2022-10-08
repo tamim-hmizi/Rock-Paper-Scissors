@@ -28,20 +28,49 @@ function playRound(playerSelection, computerSelection) {
   }
 }
 
-function game() {
+function ui_game() {
+  const btns = document.querySelectorAll("button");
+  const div = document.querySelector(".result");
+  const result = document.createElement("p");
+  const player = document.querySelector(".player");
+  const computer = document.querySelector(".computer");
   let playerscore = 0,
     computerscore = 0;
-  for (let i = 0; i < 5; i++) {
-    let str = playRound(window.prompt("ROCK PAPER SCISSORS ?"), getComputerChoice());
-    console.log(str);
-    if (str.match(/you win/i)) playerscore++;
-    else if (str.match(/you lose/i)) computerscore++;
+  player.textContent = playerscore;
+  computer.textContent = computerscore;
+
+  for (let i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", () => {
+      let str = playRound(btns[i].textContent, getComputerChoice());
+      if (str.match(/you win/i)) playerscore++;
+      else if (str.match(/you lose/i)) computerscore++;
+      result.textContent = str;
+      div.appendChild(result);
+      player.textContent = playerscore;
+      computer.textContent = computerscore;
+       if (playerscore == 5) {
+         result.textContent =
+           "Player wins the game with " + playerscore + " to " + computerscore;
+         div.appendChild(result);
+         playerscore = 0;
+         computerscore = 0;
+         player.textContent = playerscore;
+         computer.textContent = computerscore;
+       } else if (computerscore == 5) {
+         result.textContent =
+           "Computer wins the game with " +
+           computerscore +
+           " to " +
+           playerscore;
+         div.appendChild(result);
+         playerscore = 0;
+         computerscore = 0;
+         player.textContent = playerscore;
+         computer.textContent = computerscore;
+       }
+    });
   }
-  if (playerscore > computerscore)
-    console.log("Player wins ! with :" + playerscore + " to " + computerscore);
-  else if (playerscore < computerscore)
-    console.log("Player Lose ! with :" + playerscore + " to " + computerscore);
-    else console.log("Player Draws with computer ! with :" + playerscore + " to " + computerscore);
+ 
 }
 
-game();
+ui_game();
