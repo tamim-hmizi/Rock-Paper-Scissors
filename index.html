@@ -5,19 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock Paper Scissors</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script defer src="script.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   </head>
   <body>
+    <h1>Rock Paper Scissors</h1>
     <div class="score">
-      <p>Player score : <span class="player"></span></p>
-      <p>Computer score : <span class="computer"></span></p>
+      <p>Player: <span class="player">0</span></p>
+      <p>Computer: <span class="computer">0</span></p>
     </div>
     <div class="buttons">
-    <button>ROCK</button>
-    <button>PAPER</button>
-    <button>SCISSORS</button>
+      <button data-choice="ROCK"><i class="fa-solid fa-hand-back-fist"></i></button>
+      <button data-choice="PAPER"><i class="fa-solid fa-hand"></i></button>
+      <button data-choice="SCISSORS"><i class="fa-solid fa-hand-scissors"></i></button>
     </div>
-    <div class="result"></div>
+    <div class="result">Make your move!</div>
   </body>
 </html>

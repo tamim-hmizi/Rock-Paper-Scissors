@@ -1,76 +1,54 @@
 function getComputerChoice() {
-  let arr = ["ROCK", "PAPER", "SCISSORS"];
-  let i = Math.floor(Math.random() * 3);
-  return arr[i];
+  const choices = ["ROCK", "PAPER", "SCISSORS"];
+  return choices[Math.floor(Math.random() * choices.length)];
 }
 
 function playRound(playerSelection, computerSelection) {
-  switch (playerSelection.toUpperCase()) {
-    case "ROCK":
-      if (computerSelection === "PAPER") return "You Lose! Paper beats Rock";
-      else if (computerSelection === "ROCK")
-        return "Draw ! Rock Is friends with other Rocks";
-      else return "you win ! Rock beats Scissors";
-      break;
-    case "PAPER":
-      if (computerSelection === "SCISSORS")
-        return "You Lose! Scissor beats Paper";
-      else if (computerSelection === "PAPER")
-        return "Draw ! Paper Is friends with other Papers";
-      else return "you win ! Paper beats Rock";
-      break;
-    case "SCISSORS":
-      if (computerSelection === "ROCK") return "You Lose! Rock beats Scissors";
-      else if (computerSelection === "SCISSORS")
-        return "Draw ! Sissor Is friends with other Sissors";
-      else return "you win ! Scissors beats Paper";
-      break;
+  if (playerSelection === computerSelection) return "It's a Draw!";
+  if (
+    (playerSelection === "ROCK" && computerSelection === "SCISSORS") ||
+    (playerSelection === "PAPER" && computerSelection === "ROCK") ||
+    (playerSelection === "SCISSORS" && computerSelection === "PAPER")
+  ) {
+    return "You Win!";
   }
+  return "You Lose!";
 }
 
 function ui_game() {
-  const btns = document.querySelectorAll("button");
-  const div = document.querySelector(".result");
-  const result = document.createElement("p");
-  const player = document.querySelector(".player");
-  const computer = document.querySelector(".computer");
-  let playerscore = 0,
-    computerscore = 0;
-  player.textContent = playerscore;
-  computer.textContent = computerscore;
+  const buttons = document.querySelectorAll("button");
+  const resultDiv = document.querySelector(".result");
+  const playerScoreSpan = document.querySelector(".player");
+  const computerScoreSpan = document.querySelector(".computer");
 
-  for (let i = 0; i < btns.length; i++) {
-    btns[i].addEventListener("click", () => {
-      let str = playRound(btns[i].textContent, getComputerChoice());
-      if (str.match(/you win/i)) playerscore++;
-      else if (str.match(/you lose/i)) computerscore++;
-      result.textContent = str;
-      div.appendChild(result);
-      player.textContent = playerscore;
-      computer.textContent = computerscore;
-       if (playerscore == 5) {
-         result.textContent =
-           "Player wins the game with " + playerscore + " to " + computerscore;
-         div.appendChild(result);
-         playerscore = 0;
-         computerscore = 0;
-         player.textContent = playerscore;
-         computer.textContent = computerscore;
-       } else if (computerscore == 5) {
-         result.textContent =
-           "Computer wins the game with " +
-           computerscore +
-           " to " +
-           playerscore;
-         div.appendChild(result);
-         playerscore = 0;
-         computerscore = 0;
-         player.textContent = playerscore;
-         computer.textContent = computerscore;
-       }
+  let playerScore = 0;
+  let computerScore = 0;
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      const playerChoice = button.getAttribute("data-choice");
+      const computerChoice = getComputerChoice();
+      const result = playRound(playerChoice, computerChoice);
+
+      if (result === "You Win!") playerScore++;
+      else if (result === "You Lose!") computerScore++;
+
+      resultDiv.textContent = `${result} (You: ${playerChoice}, Computer: ${computerChoice})`;
+      playerScoreSpan.textContent = playerScore;
+      computerScoreSpan.textContent = computerScore;
+
+      if (playerScore === 5 || computerScore === 5) {
+        resultDiv.textContent =
+          playerScore === 5
+            ? "🎉 You won the game!"
+            : "💻 Computer won the game!";
+        playerScore = 0;
+        computerScore = 0;
+        playerScoreSpan.textContent = playerScore;
+        computerScoreSpan.textContent = computerScore;
+      }
     });
-  }
- 
+  });
 }
 
 ui_game();
